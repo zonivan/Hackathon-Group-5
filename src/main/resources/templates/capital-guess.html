@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US State GeoGuesser - Capital Guess</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Now Guess the Capital!</h1>
+            <div th:if="${stateCorrect}">
+                <p class="success-message">Great job! You correctly identified the state as <span th:text="${currentState}"></span>!</p>
+            </div>
+            <div th:unless="${stateCorrect}">
+                <p class="error-message">Sorry, that's not correct. This is actually <span th:text="${currentState}"></span>.</p>
+                <p>You guessed: <span th:text="${userStateGuess}"></span></p>
+            </div>
+        </div>
+        
+        <div class="game-container">
+            <div class="location-info">
+                <p class="fact-title">Interesting fact about <span th:text="${currentState}"></span>:</p>
+                <p class="fact-text" th:text="${stateFact}"></p>
+            </div>
+            
+            <form class="guess-form" action="/check-capital" method="post">
+                <div class="form-group">
+                    <label for="capitalGuess">What is the capital of <span th:text="${currentState}"></span>?</label>
+                    <input type="text" id="capitalGuess" name="capitalGuess" required>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button type="submit" class="btn">Submit Capital Guess</button>
+                </div>
+            </form>
+            
+            <div class="location-image">
+                <p class="location-name">The location you saw: <span th:text="${locationName}"></span></p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Hackathon Group 5 JJ</p>
+        </div>
+    </div>
+</body>
+</html>
