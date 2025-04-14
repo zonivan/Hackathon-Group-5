@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US State GeoGuesser - Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Results</h1>
+        </div>
+        
+        <div class="result">
+            <div th:if="${stateCorrect and capitalCorrect}">
+                <h2 class="correct">Excellent! Both answers are correct!</h2>
+                <p>You correctly identified:</p>
+                <p>State: <span class="correct" th:text="${currentState}"></span></p>
+                <p>Capital: <span class="correct" th:text="${currentCapital}"></span></p>
+            </div>
+            
+            <div th:if="${stateCorrect and !capitalCorrect}">
+                <h2>Almost there!</h2>
+                <p>You correctly identified the state: <span class="correct" th:text="${currentState}"></span></p>
+                <p>But the capital is: <span class="correct" th:text="${currentCapital}"></span></p>
+            </div>
+            
+            <div th:if="${!stateCorrect and capitalCorrect}">
+                <h2>Good try!</h2>
+                <p>You correctly identified the capital: <span class="correct" th:text="${currentCapital}"></span></p>
+                <p>But the state is: <span class="correct" th:text="${currentState}"></span></p>
+            </div>
+            
+            <div th:if="${!stateCorrect and !capitalCorrect}">
+                <h2 class="incorrect">Better luck next time!</h2>
+                <p>The correct answers are:</p>
+                <p>State: <span class="correct" th:text="${currentState}"></span></p>
+                <p>Capital: <span class="correct" th:text="${currentCapital}"></span></p>
+            </div>
+            
+            <div class="state-fact" th:if="${currentState}">
+                <h3>Fun Fact about <span th:text="${currentState}"></span>:</h3>
+                <p>The capital of <span th:text="${currentState}"></span> is <span th:text="${currentCapital}"></span>.</p>
+                <p>Try to remember this for next time!</p>
+            </div>
+            
+            <div class="next-btn">
+                <a href="/game" class="btn">Try Another Location</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2025 US State GeoGuesser - Educational App</p>
+        </div>
+    </div>
+</body>
+</html>

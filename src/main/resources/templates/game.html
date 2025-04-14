@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US State GeoGuesser - Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>US State GeoGuesser</h1>
+            <p>Where in the US are you?</p>
+        </div>
+        
+        <div class="game-container">
+            <div id="street-view" class="street-view"></div>
+            
+            <form class="guess-form" action="/check" method="post">
+                <div class="form-group">
+                    <label for="stateGuess">Which state is this?</label>
+                    <select id="stateGuess" name="stateGuess" required>
+                        <option value="">Select a state...</option>
+                        <option th:each="state : ${stateNames}" th:value="${state}" th:text="${state}"></option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="capitalGuess">What is the capital of this state?</label>
+                    <input type="text" id="capitalGuess" name="capitalGuess" required>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button type="submit" class="btn">Submit Guess</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2025 US State GeoGuesser - Educational App</p>
+        </div>
+    </div>
+    
+    <!-- Google Maps API with Street View -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Get location data from Thymeleaf
+        const location = {
+            lat: [[${location.latitude}]],
+            lng: [[${location.longitude}]],
+            zoom: [[${location.zoom}]],
+            heading: [[${location.heading}]],
+            pitch: [[${location.pitch}]]
+        };
+        
+        function initStreetView() {
+            const panorama = new google.maps.StreetViewPanorama(
+                document.getElementById('street-view'),
+                {
+                    position: { lat: location.lat, lng: location.lng },
+                    pov: {
+                        heading: location.heading,
+                        pitch: location.pitch
+                    },
+                    zoom: location.zoom,
+                    addressControl: false,
+                    showRoadLabels: false,
+                    panControl: true,
+                    zoomControl: true,
+                    fullscreenControl: false,
+                    linksControl: true
+                }
+            );
+        }
+        /*]]>*/
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initStreetView">
+    </script>
+</body>
+</html>
